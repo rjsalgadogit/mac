@@ -25,7 +25,8 @@ namespace Mac.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var test = _macService.GetAddresses();
-			await _macService.UpdateAddress(new UpdateAddress { Address = "01089054", Description = "Desc 1"});
+			await _macService.UpdateAddress(new UpdateAddress { Address = "11089024", Description = "Desc4"});
+			await _macService.DeleteAddress(new DeleteAddress { Id = 2 });
 
 			return View();
 		}

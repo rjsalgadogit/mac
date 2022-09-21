@@ -9,5 +9,6 @@ namespace Mac.Services.Interfaces
 	{
 		public Task<List<MacAddressModel>> GetAddresses();
 		public Task UpdateAddress(UpdateAddress updateAddress);
+		public Task DeleteAddress(DeleteAddress deleteAddress);
 	}
 }

@@ -18,6 +18,7 @@ namespace Mac.Registration
 
 			services.AddTransient(typeof(ISequelService<GetAddresses>), typeof(SequelService<GetAddresses>));
 			services.AddTransient(typeof(ISequelService<UpdateAddress>), typeof(SequelService<UpdateAddress>));
+			services.AddTransient(typeof(ISequelService<DeleteAddress>), typeof(SequelService<DeleteAddress>));
 
 			#endregion
 

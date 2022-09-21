@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\NetCoreSequelService\NetCoreSequelService\Sequel.Service\Sequel.Service.csproj" />
     <ProjectReference Include="..\Mac.Models\Mac.Models.csproj" />
+    <ProjectReference Include="..\NETStandard\Sequel.Service\Sequel.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Test\NetCoreSequelService\NetCoreSequelService\Sequel.Models\Sequel.Models.csproj" />
+    <ProjectReference Include="..\NETStandard\Sequel.Attributes\Sequel.Attributes.csproj" />
+    <ProjectReference Include="..\NETStandard\Sequel.Models\Sequel.Models.csproj" />
   </ItemGroup>
 
 </Project>
