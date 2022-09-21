@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mac", "Mac\Mac.csproj", "{B2055187-9C07-4122-87F2-92FA692067A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NETStandard", "NETStandard", "{F3149522-5E6E-46E4-9BA4-A3A69FB92522}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sequel.Attributes", "..\..\NetCoreSequelService\NetCoreSequelService\Sequel.Attributes\Sequel.Attributes.csproj", "{D2149772-8DB2-4D2B-A620-F57E6E860FE6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sequel.Common", "..\..\NetCoreSequelService\NetCoreSequelService\Sequel.Common\Sequel.Common.csproj", "{1ED8A6E6-EDA1-4D90-8A40-ACCBA3AF6D9A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sequel.Models", "..\..\NetCoreSequelService\NetCoreSequelService\Sequel.Models\Sequel.Models.csproj", "{BF459BC2-AE9B-4D49-A932-4E7F772A56EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sequel.Service", "..\..\NetCoreSequelService\NetCoreSequelService\Sequel.Service\Sequel.Service.csproj", "{3F56D88C-283E-43C8-B6DC-191465498701}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mac.Models", "Mac.Models\Mac.Models.csproj", "{6C3D18FB-DCEA-4D38-ACF0-CF4E8B37628F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2055187-9C07-4122-87F2-92FA692067A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2055187-9C07-4122-87F2-92FA692067A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2055187-9C07-4122-87F2-92FA692067A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2055187-9C07-4122-87F2-92FA692067A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2149772-8DB2-4D2B-A620-F57E6E860FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2149772-8DB2-4D2B-A620-F57E6E860FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2149772-8DB2-4D2B-A620-F57E6E860FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2149772-8DB2-4D2B-A620-F57E6E860FE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ED8A6E6-EDA1-4D90-8A40-ACCBA3AF6D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ED8A6E6-EDA1-4D90-8A40-ACCBA3AF6D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ED8A6E6-EDA1-4D90-8A40-ACCBA3AF6D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ED8A6E6-EDA1-4D90-8A40-ACCBA3AF6D9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF459BC2-AE9B-4D49-A932-4E7F772A56EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF459BC2-AE9B-4D49-A932-4E7F772A56EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF459BC2-AE9B-4D49-A932-4E7F772A56EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF459BC2-AE9B-4D49-A932-4E7F772A56EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F56D88C-283E-43C8-B6DC-191465498701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F56D88C-283E-43C8-B6DC-191465498701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F56D88C-283E-43C8-B6DC-191465498701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F56D88C-283E-43C8-B6DC-191465498701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3D18FB-DCEA-4D38-ACF0-CF4E8B37628F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3D18FB-DCEA-4D38-ACF0-CF4E8B37628F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3D18FB-DCEA-4D38-ACF0-CF4E8B37628F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3D18FB-DCEA-4D38-ACF0-CF4E8B37628F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D2149772-8DB2-4D2B-A620-F57E6E860FE6} = {F3149522-5E6E-46E4-9BA4-A3A69FB92522}
+		{1ED8A6E6-EDA1-4D90-8A40-ACCBA3AF6D9A} = {F3149522-5E6E-46E4-9BA4-A3A69FB92522}
+		{BF459BC2-AE9B-4D49-A932-4E7F772A56EB} = {F3149522-5E6E-46E4-9BA4-A3A69FB92522}
+		{3F56D88C-283E-43C8-B6DC-191465498701} = {F3149522-5E6E-46E4-9BA4-A3A69FB92522}
+		{6C3D18FB-DCEA-4D38-ACF0-CF4E8B37628F} = {F3149522-5E6E-46E4-9BA4-A3A69FB92522}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6048840D-7ED5-4840-9632-01E7BB3453F4}
+	EndGlobalSection
+EndGlobal
