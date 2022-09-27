@@ -7,7 +7,7 @@ namespace Mac.Services.Interfaces
 {
 	public interface IMacService
 	{
-		public Task<List<MacAddressModel>> GetAddresses();
+		public Task<List<MacAddressModel>> GetAddresses(GetModel parameters);
 		public Task UpdateAddress(UpdateAddress updateAddress);
 		public Task DeleteAddress(DeleteAddress deleteAddress);
 	}

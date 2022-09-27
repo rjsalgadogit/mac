@@ -3,6 +3,7 @@ using Mac.Models.StoredProcedure;
 using Mac.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,11 +25,35 @@ namespace Mac.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var test = _macService.GetAddresses();
-			await _macService.UpdateAddress(new UpdateAddress { Address = "11089024", Description = "Desc4"});
-			await _macService.DeleteAddress(new DeleteAddress { Id = 2 });
+			//var test = _macService.GetAddresses();
+			await _macService.UpdateAddress(new UpdateAddress { Address = "11089024", Description = "Description" });
+			//await _macService.DeleteAddress(new DeleteAddress { Id = 2 });
 
 			return View();
+		}
+
+		public async Task<IActionResult> _GridTable(GridModel model)
+		{
+			return PartialView(await Task.FromResult(model));
+		}
+
+		public async Task<string> GetMacAddresses(GetModel parameters)
+		{
+			var result = new JsonResultModel
+			{
+				ErrorMessage = string.Empty
+			};
+
+			try
+			{
+				result.Collection = await _macService.GetAddresses(parameters);
+			}
+			catch (Exception ex) 
+			{
+				result.ErrorMessage = ex.Message;
+			}
+
+			return JsonConvert.SerializeObject(result);
 		}
 
 		#region Default

@@ -16,5 +16,14 @@ namespace Mac.Models.StoredProcedure
 
 		[Read]
 		public string Description { get; set; }
+
+		[Param]
+		public int OffSet { get; set; }
+
+		[Param]
+		public int PageSize { get; set; }
+
+		[Param]
+		public string Keyword { get; set; }
 	}
 }

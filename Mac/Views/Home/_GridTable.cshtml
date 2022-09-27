@@ -1,0 +1,129 @@
+﻿@model GridModel
+
+<div class="row mb-1">
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" placeholder="Search by keyword" class="form-control" aria-label="Search" aria-describedby="basic-addon" autofocus id="txtSearch_@Model.TableId"/>
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-primary" id="btnSearch_@Model.TableId">Search</button>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="col-md">
+        <button class="btn btn-primary" style="float: right" id="deliverBtn" onclick="addNewDeliveryStock()">Add Item delivery</button>
+    </div>*@
+</div>
+
+<table class="table table-striped table-bordered mb-1" style="width: 100%" id="@Model.TableId">
+    <thead>
+        <tr>
+            @if (Model.Columns != null || Model.Columns.Any())
+            {
+                foreach (var column in Model.Columns)
+                {
+                    <th>@column.DataField</th>
+                }
+            }
+        </tr>
+    </thead>
+</table>
+
+@if (Model.PageSize > 0)
+{
+    <div style="text-align: right; width: 100%">
+        <nav aria-label="Page Navigation">
+            <ul class="pagination justify-content-end">
+                <li class="page-item" id="btnPrev_@Model.TableId"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item" id="btnNext_@Model.TableId"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <input type="hidden" value="1" id="pageNumber_@Model.TableId" />
+    <input type="hidden" value="@Model.PageSize" id="pageSize_@Model.TableId"/>
+}
+
+<script>
+    $(document).ready(function () {
+        getTableData('@Model.TableId');
+    });
+
+    function getTableData(tableId) {
+        let column_fields = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Columns));
+
+        $('#' + tableId).DataTable({
+            paging: false,
+            ordering: false,
+            serverSide: true,
+            info: false,
+            bFilter: false,
+            responsive: true,
+
+            ajax: {
+                url: '/Home/GetMacAddresses',
+                type: 'POST',
+                dataType: 'json',
+                data: function (d) {
+                    d.PageSize = $('#pageSize_' + tableId).val();
+                    d.PageNumber = $('#pageNumber_' + tableId).val();
+                    d.Keyword = $('#txtSearch_' + tableId).val();
+                },
+                dataSrc: function (data) {
+
+                    navbuttonLogics(data, tableId);
+                    return data.Collection;
+                }
+            },
+            order: [[1, 'asc']],
+            columns: buildDataColumns(column_fields)
+        });
+
+        /* next */
+        $(document).on('click', '#btnNext_' + tableId, function () {
+            $('#pageNumber_' + tableId).val(parseInt($('#pageNumber_' + tableId).val()) + 1);
+            $('#' + tableId).DataTable().ajax.reload();
+        });
+
+        /* previous */
+        $(document).on('click', '#btnPrev_' + tableId, function () {
+            $('#pageNumber_' + tableId).val(parseInt($('#pageNumber_' + tableId).val()) - 1);
+            $('#' + tableId).DataTable().ajax.reload();
+        });
+
+        /* search */
+        $(document).on('click', '#btnSearch_' + tableId, function () {
+            $('#pageNumber_' + tableId).val(1);
+            $('#' + tableId).DataTable().ajax.reload();
+        });
+    }
+
+    function buildDataColumns(columnFields) {
+        let dataColumns = [];
+
+        columnFields.forEach((item) => {
+            dataColumns.push({ data: item.DataField });
+        });
+
+        return dataColumns;
+    }
+
+    function navbuttonLogics(data, tableId) {
+        let is_limit = false;
+        let page_size = parseInt($('#pageSize_' + tableId).val());
+        let page_number = parseInt($('#pageNumber_' + tableId).val());
+        is_limit = data != null && data.Collection.length < page_size ? true : false;
+
+        if (is_limit) {
+            $('#btnNext_' + tableId).addClass('disabled');
+        }
+        else
+            $('#btnNext_' + tableId).removeClass('disabled');
+
+        if (page_number == 1) {
+            $('#btnPrev_' + tableId).addClass('disabled');
+        }
+        else
+            $('#btnPrev_' + tableId).removeClass('disabled');
+    }
+</script>

@@ -25,13 +25,18 @@ namespace Mac.Services
 			_deleteAddress = deleteAddress;
 		}
 
-		public async Task<List<MacAddressModel>> GetAddresses()
+		public async Task<List<MacAddressModel>> GetAddresses(GetModel parameters)
 		{
 			var list = new List<MacAddressModel>();
 
 			try
 			{
-				var result = await _getAddresses.GetSPResultsFromSequelClientAsync(new GetAddresses());
+				var result = await _getAddresses.GetSPResultsFromSequelClientAsync(new GetAddresses 
+				{ 
+					OffSet = parameters.PageNumber, 
+					PageSize = parameters.PageSize,
+					Keyword = parameters.keyword
+				});
 
 				if (result != null)
 					list = result.Select(i => i.ToViewModel()).ToList();

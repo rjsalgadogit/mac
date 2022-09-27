@@ -24,6 +24,7 @@ namespace Mac
 		public void ConfigureServices(IServiceCollection services)
 		{
 			Registration.Registration.Register(services);
+			services.AddRazorPages().AddRazorRuntimeCompilation();
 			services.AddControllersWithViews();
 		}
 
