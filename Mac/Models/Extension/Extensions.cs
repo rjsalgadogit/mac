@@ -11,5 +11,13 @@ namespace Mac.Models.Extension
 				Address = getAddresses.Address,
 				Description = getAddresses.Description
 			};
+
+		public static MacAddressModel ToViewModel(this GetAddressDetails getAddressDetails)
+			=> new MacAddressModel
+			{
+				Id = getAddressDetails.Id,
+				Address = getAddressDetails.Address,
+				Description = getAddressDetails.Description
+			};
 	}
 }

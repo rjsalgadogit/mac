@@ -6,7 +6,11 @@ namespace Mac.Models
     {
         public string TableId { get; set; }
 
-        public string Url { get; set; }
+        public string ReadAllRowDataUrl { get; set; }
+
+        public string ReadOneRowDataUrl { get; set; }
+
+        public string DeleteRowDataUrl { get; set; }
 
         public List<ColumnModel> Columns { get; set; }
 
@@ -15,8 +19,12 @@ namespace Mac.Models
 
     public class ColumnModel
     {
-        public string CustomName { get; set; }
+		public string DataField { get; set; }
 
-        public string DataField { get; set; }
+        public string DataType { get; set; }
+
+		public string CustomName { get; set; }
+
+        public bool IsKey { get; set; }
     }
 }

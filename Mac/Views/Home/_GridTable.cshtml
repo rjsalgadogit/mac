@@ -10,9 +10,9 @@
         </div>
     </div>
 
-    @*<div class="col-md">
-        <button class="btn btn-primary" style="float: right" id="deliverBtn" onclick="addNewDeliveryStock()">Add Item delivery</button>
-    </div>*@
+    <div class="col-md">
+        <button class="btn btn-primary" style="float: right" id="btnAdd_@Model.TableId">Add</button>
+    </div>
 </div>
 
 <table class="table table-striped table-bordered mb-1" style="width: 100%" id="@Model.TableId">
@@ -34,8 +34,8 @@
     <div style="text-align: right; width: 100%">
         <nav aria-label="Page Navigation">
             <ul class="pagination justify-content-end">
-                <li class="page-item" id="btnPrev_@Model.TableId"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item" id="btnNext_@Model.TableId"><a class="page-link" href="#">Next</a></li>
+                <li class="page-item"><a class="page-link" href="#" id="btnPrev_@Model.TableId">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#" id="btnNext_@Model.TableId">Next</a></li>
             </ul>
         </nav>
     </div>
@@ -44,6 +44,65 @@
     <input type="hidden" value="@Model.PageSize" id="pageSize_@Model.TableId"/>
 }
 
+<div class="modal fade" tabindex="1" id="modal_@Model.TableId">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="form_@Model.TableId">
+                    <div class="container">
+                        @if (Model.Columns != null || Model.Columns.Any())
+                        {
+                            foreach (var column in Model.Columns)
+                            {
+                                <div class="row mb-2">
+                                    <div class="col-md-4 form-control" style="border: 0">
+                                        @column.DataField
+                                    </div>
+
+                                    <div class="col-md">
+                                        @switch (column.DataType) 
+                                        {
+                                            case "string":
+                                                @if (column.IsKey) {
+                                                    <input type="text" class="form-control" id="input_@column.DataField.ToLower()" readonly />
+                                                }
+                                                else {
+                                                    <input type="text" class="form-control" id="input_@column.DataField.ToLower()" />
+                                                }
+                                                break;
+
+                                            case "int":
+                                                @if (column.IsKey) {
+                                                    <input type="number" class="form-control" style="width: 50%" id="input_@column.DataField.ToLower()" readonly />
+                                                }
+                                                else {
+                                                    <input type="number" class="form-control" style="width: 50%" id="input_@column.DataField.ToLower()" />
+                                                }
+                                                break;
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" style="width: 80px">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 80px">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         getTableData('@Model.TableId');
@@ -51,6 +110,7 @@
 
     function getTableData(tableId) {
         let column_fields = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Columns));
+        let primary_key = getkey(column_fields);
 
         $('#' + tableId).DataTable({
             paging: false,
@@ -61,7 +121,7 @@
             responsive: true,
 
             ajax: {
-                url: '/Home/GetMacAddresses',
+                url: '@Model.ReadAllRowDataUrl',
                 type: 'POST',
                 dataType: 'json',
                 data: function (d) {
@@ -70,13 +130,41 @@
                     d.Keyword = $('#txtSearch_' + tableId).val();
                 },
                 dataSrc: function (data) {
-
                     navbuttonLogics(data, tableId);
                     return data.Collection;
                 }
             },
             order: [[1, 'asc']],
-            columns: buildDataColumns(column_fields)
+            columns: buildDataColumns(column_fields),
+            columnDefs: [
+                {
+                    targets: 0,
+                    data: primary_key,
+                    render: function (data, type, row, meta) {
+                        let key_id = data.toString().replace(/ /g, "");
+
+                        return "" +
+                            "<a href='#' style='cursor: pointer' onclick=\"onViewRow('" + key_id + "', '" + primary_key + "')\" id='btnView_" + key_id + "'><span>" + key_id + "</span></a>" +
+							"<div class='btn-group' style='float:right;'>" +
+							"<img src='/img/3dots.png' title='More Options' data-toggle='dropdown' />" +
+							"<div class='dropdown-menu' role='menu'>" +
+                            "<a href='#' style='cursor: pointer' onclick=\"onEditRow('" + key_id + "', '" + primary_key + "')\" id='btnEdit_" + key_id + "'><span class='dropdown-item'>Edit</span></a>" +
+                            "<a href='#' style='cursor: pointer' onclick=\"onDeleteRow('" + key_id + "', '" + primary_key + "')\" id='btnDelete_" + key_id + "'><span class='dropdown-item'>Delete</span></a>";
+						menu += "</div></div>";
+                    }
+                }
+            ]
+        });
+
+        /* search */
+        $(document).on('click', '#btnSearch_' + tableId, function () {
+            $('#pageNumber_' + tableId).val(1);
+            $('#' + tableId).DataTable().ajax.reload();
+        });
+
+        /* add */
+        $(document).on('click', '#btnAdd_' + tableId, function () {
+            $('#modal_' + tableId).modal('show');
         });
 
         /* next */
@@ -87,14 +175,12 @@
 
         /* previous */
         $(document).on('click', '#btnPrev_' + tableId, function () {
-            $('#pageNumber_' + tableId).val(parseInt($('#pageNumber_' + tableId).val()) - 1);
-            $('#' + tableId).DataTable().ajax.reload();
-        });
+            let page_number = parseInt($('#pageNumber_' + tableId).val());
 
-        /* search */
-        $(document).on('click', '#btnSearch_' + tableId, function () {
-            $('#pageNumber_' + tableId).val(1);
-            $('#' + tableId).DataTable().ajax.reload();
+            if (page_number > 1) {
+                $('#pageNumber_' + tableId).val(parseInt($('#pageNumber_' + tableId).val()) - 1);
+                $('#' + tableId).DataTable().ajax.reload();
+            }
         });
     }
 
@@ -108,6 +194,11 @@
         return dataColumns;
     }
 
+    function getkey(columnFields) {
+        const result = columnFields.filter(item => item.IsKey == true);
+        return result.length > 0 ? result[0].DataField : null;
+    }
+
     function navbuttonLogics(data, tableId) {
         let is_limit = false;
         let page_size = parseInt($('#pageSize_' + tableId).val());
@@ -115,15 +206,54 @@
         is_limit = data != null && data.Collection.length < page_size ? true : false;
 
         if (is_limit) {
-            $('#btnNext_' + tableId).addClass('disabled');
+            $('#btnNext_' + tableId).addClass('disabled-button');
         }
         else
-            $('#btnNext_' + tableId).removeClass('disabled');
+            $('#btnNext_' + tableId).removeClass('disabled-button');
 
         if (page_number == 1) {
-            $('#btnPrev_' + tableId).addClass('disabled');
+            $('#btnPrev_' + tableId).addClass('disabled-button');
         }
         else
-            $('#btnPrev_' + tableId).removeClass('disabled');
+            $('#btnPrev_' + tableId).removeClass('disabled-button');
+    }
+
+    function onViewRow(keyId, primaryKey) {
+        let parameter = '?' + primaryKey + '=' + keyId;
+
+        GotoControllerAsync('@Model.ReadOneRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
+
+            Object.keys(response).forEach(function eachKey(key) {
+                $('#input_' + key).val(response[key]);
+            });
+
+            $('#modal_@Model.TableId').modal('show');
+        });
+    }
+
+    function onEditRow(keyId, primaryKey) {
+        let parameter = '?' + primaryKey + '=' + keyId;
+
+        GotoControllerAsync('@Model.ReadOneRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
+
+            Object.keys(response).forEach(function eachKey(key) {
+                $('#input_' + key).val(response[key]);
+            });
+
+            $('#modal_@Model.TableId').modal('show');
+        });
+    }
+
+    function onDeleteRow(keyId, primaryKey) {
+        let parameter = '?' + primaryKey + '=' + keyId;
+
+        GotoControllerAsync('@Model.DeleteRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
+
+            //Object.keys(response).forEach(function eachKey(key) {
+            //    $('#input_' + key).val(response[key]);
+            //});
+
+            //$('#modal_@Model.TableId').modal('show');
+        });
     }
 </script>

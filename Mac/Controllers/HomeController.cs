@@ -26,7 +26,7 @@ namespace Mac.Controllers
 		public async Task<IActionResult> Index()
 		{
 			//var test = _macService.GetAddresses();
-			await _macService.UpdateAddress(new UpdateAddress { Address = "11089024", Description = "Description" });
+			//await _macService.UpdateAddress(new UpdateAddress { Address = "11089024", Description = "Description" });
 			//await _macService.DeleteAddress(new DeleteAddress { Id = 2 });
 
 			return View();
@@ -54,6 +54,18 @@ namespace Mac.Controllers
 			}
 
 			return JsonConvert.SerializeObject(result);
+		}
+
+		public async Task<IActionResult> GetMacAddress(int Id)
+		{
+			var result = await _macService.GetAddressDetails(new GetAddressDetails { Id = Id }) ;
+			return Json(result);
+		}
+
+		public async Task<IActionResult> DeleteMacAddress(int Id)
+		{
+			await _macService.DeleteAddress(new DeleteAddress { Id = Id });
+			return Json("");
 		}
 
 		#region Default

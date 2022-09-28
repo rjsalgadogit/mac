@@ -10,5 +10,6 @@ namespace Mac.Services.Interfaces
 		public Task<List<MacAddressModel>> GetAddresses(GetModel parameters);
 		public Task UpdateAddress(UpdateAddress updateAddress);
 		public Task DeleteAddress(DeleteAddress deleteAddress);
+		public Task<MacAddressModel> GetAddressDetails(GetAddressDetails getAddressDetails);
 	}
 }

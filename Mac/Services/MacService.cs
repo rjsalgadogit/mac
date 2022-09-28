@@ -15,14 +15,17 @@ namespace Mac.Services
 		private readonly ISequelService<GetAddresses> _getAddresses;
 		private readonly ISequelService<UpdateAddress> _updateAddress;
 		private readonly ISequelService<DeleteAddress> _deleteAddress;
+		private readonly ISequelService<GetAddressDetails> _getAddressDetails;
 
 		public MacService(ISequelService<GetAddresses> getAddresses
 			, ISequelService<UpdateAddress> updateAddress
-			, ISequelService<DeleteAddress> deleteAddress)
+			, ISequelService<DeleteAddress> deleteAddress
+			, ISequelService<GetAddressDetails> getAddressDetails)
 		{
 			_getAddresses = getAddresses;
 			_updateAddress = updateAddress;
 			_deleteAddress = deleteAddress;
+			_getAddressDetails = getAddressDetails;
 		}
 
 		public async Task<List<MacAddressModel>> GetAddresses(GetModel parameters)
@@ -62,6 +65,22 @@ namespace Mac.Services
 				await _deleteAddress.PerformSPFromSequelClientAsync(deleteAddress);
 			}
 			catch (Exception ex) { throw; }
+		}
+
+		public async Task<MacAddressModel> GetAddressDetails(GetAddressDetails getAddressDetails)
+		{
+			var model = new MacAddressModel();
+
+			try
+			{
+				var result = await _getAddressDetails.GetSPResultsFromSequelClientAsync(getAddressDetails);
+
+				if (result != null)
+					model = result.Select(i => i.ToViewModel()).FirstOrDefault();
+			}
+			catch (Exception ex) { throw; }
+
+			return model;
 		}
 	}
 }

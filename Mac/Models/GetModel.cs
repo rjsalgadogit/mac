@@ -7,5 +7,7 @@
 		public int PageNumber { get; set; }
 
 		public string keyword { get; set; }
+
+		public int Id { get; set; }
 	}
 }
