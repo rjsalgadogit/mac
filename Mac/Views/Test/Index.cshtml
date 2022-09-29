@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div id="table-container"></div>
+
+<script>
+    $(document).ready(function () {
+
+        loadGrid('/Home/GetMacAddresses'
+            , '/Home/GetMacAddress'
+            , '/Home/DeleteMacAddress'
+            , 'table-container'
+            , 5,
+            { 
+                TableId: 'mac_table', 
+                Columns: [
+                    { DataField: 'Id', DataType: 'int', IsKey: true },
+                    { DataField: 'Address', DataType: 'string', IsKey: false },
+                    { DataField: 'Description', DataType: 'string', IsKey: false }
+            ]
+        });
+    });
+</script>
