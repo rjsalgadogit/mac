@@ -23,6 +23,8 @@ namespace Mac.Models
     {
 		public string DataField { get; set; }
 
+        public string DataFieldGrid { get; set; }
+
         public string DataType { get; set; }
 
 		public string CustomName { get; set; }
