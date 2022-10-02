@@ -164,6 +164,7 @@
 
         /* add */
         $(document).on('click', '#btnAdd_' + tableId, function () {
+            clearAllFields(column_fields);
             $('#modal_' + tableId).modal('show');
         });
 
@@ -287,6 +288,12 @@
             if (callback != null && typeof callback == 'function') {
                 callback(response);
             }
+        });
+    }
+
+    function clearAllFields(columnFields) {
+        columnFields.forEach((item) => {
+            $('#input_' + item.DataField.toLowerCase()).val('');
         });
     }
 </script>
