@@ -67,23 +67,23 @@
                                     </div>
 
                                     <div class="col-md">
-                                        @switch (column.DataType) 
+                                        @switch (column.DataType)
                                         {
                                             case "string":
                                                 @if (column.IsKey) {
-                                                    <input type="text" class="form-control" id="input_@column.DataField.ToLower()" readonly />
+                                                    <input type="text" class="form-control" name="@column.DataField" id="input_@column.DataField.ToLower()" readonly />
                                                 }
                                                 else {
-                                                    <input type="text" class="form-control" id="input_@column.DataField.ToLower()" />
+                                                    <input type="text" class="form-control" name="@column.DataField" id="input_@column.DataField.ToLower()" />
                                                 }
                                                 break;
 
                                             case "int":
                                                 @if (column.IsKey) {
-                                                    <input type="number" class="form-control" style="width: 50%" id="input_@column.DataField.ToLower()" readonly />
+                                                    <input type="number" class="form-control" style="width: 50%" name="@column.DataField" id="input_@column.DataField.ToLower()" readonly />
                                                 }
                                                 else {
-                                                    <input type="number" class="form-control" style="width: 50%" id="input_@column.DataField.ToLower()" />
+                                                    <input type="number" class="form-control" style="width: 50%" name="@column.DataField" id="input_@column.DataField.ToLower()" />
                                                 }
                                                 break;
                                         }
@@ -96,7 +96,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" style="width: 80px">Save</button>
+                <button type="button" class="btn btn-primary" style="width: 80px" id="btnSave_@Model.TableId">Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 80px">Close</button>
             </div>
         </div>
@@ -182,6 +182,27 @@
                 $('#' + tableId).DataTable().ajax.reload();
             }
         });
+
+        /* save */
+        $(document).on('click', '#btnSave_' + tableId, function () {
+            onSaveRow('form_@Model.TableId', function (response) {
+
+                if (response.isSuccess) {
+                    $('#' + tableId).DataTable().ajax.reload();
+                    $('#modal_@Model.TableId').modal('hide');
+                }
+            });
+        });
+
+        /* search (enter key) */
+        $(document).on('keyup', '#txtSearch_' + tableId, function (e) {
+            var key = e.keyCode || e.which;
+
+            if (key == 13) {
+                $('#pageNumber_' + tableId).val(1);
+                $('#' + tableId).DataTable().ajax.reload();
+            }
+        });
     }
 
     function buildDataColumns(columnFields) {
@@ -221,7 +242,7 @@
     function onViewRow(keyId, primaryKey) {
         let parameter = '?' + primaryKey + '=' + keyId;
 
-        GotoControllerAsync('@Model.ReadOneRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
+        GotoControllerAsync('@Model.ReadRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
 
             Object.keys(response).forEach(function eachKey(key) {
                 $('#input_' + key).val(response[key]);
@@ -234,12 +255,13 @@
     function onEditRow(keyId, primaryKey) {
         let parameter = '?' + primaryKey + '=' + keyId;
 
-        GotoControllerAsync('@Model.ReadOneRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
+        GotoControllerAsync('@Model.ReadRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
 
             Object.keys(response).forEach(function eachKey(key) {
                 $('#input_' + key).val(response[key]);
             });
 
+            $('#@Model.TableId').DataTable().ajax.reload();
             $('#modal_@Model.TableId').modal('show');
         });
     }
@@ -248,12 +270,23 @@
         let parameter = '?' + primaryKey + '=' + keyId;
 
         GotoControllerAsync('@Model.DeleteRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
+            $('#@Model.TableId').DataTable().ajax.reload();
+        });
+    }
 
-            //Object.keys(response).forEach(function eachKey(key) {
-            //    $('#input_' + key).val(response[key]);
-            //});
+    function onSaveRow(formId, callback) {
+        let formData = $('#' + formId).serializeArray();
+        let dataSource = {};
 
-            //$('#modal_@Model.TableId').modal('show');
+        $(formData).each(function (index, obj) {
+            dataSource[obj.name] = obj.value;
+        });
+
+        GotoControllerAsync('@Model.SaveRowDataUrl', 'POST', dataSource, false, 'json', function (response) {
+
+            if (callback != null && typeof callback == 'function') {
+                callback(response);
+            }
         });
     }
 </script>

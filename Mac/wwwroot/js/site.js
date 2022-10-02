@@ -40,10 +40,11 @@ async function ProcessAsync(url, type, obj, includeAntiforgeToken, returnType) {
 	});
 }
 
-function loadGrid(readAllRowDataUrl
-	, readOneRowDataUrl
+function loadGrid(gridContainerId
+	, readAllRowDataUrl
+	, readRowDataUrl
 	, deleteRowDataUrl
-	, gridContainerId
+	, saveRowDataUrl
 	, pageSize
 	, tableObj = { TableId: '', Columns: [{ DataField: '', DataType: '' }] }) {
 	/* 
@@ -62,8 +63,9 @@ function loadGrid(readAllRowDataUrl
 
 	// Assign values to the table object properties
 	tableObj.ReadAllRowDataUrl = readAllRowDataUrl;
-	tableObj.ReadOneRowDataUrl = readOneRowDataUrl;
+	tableObj.ReadRowDataUrl = readRowDataUrl;
 	tableObj.DeleteRowDataUrl = deleteRowDataUrl;
+	tableObj.SaveRowDataUrl = saveRowDataUrl;
 	tableObj.PageSize = pageSize;
 
 	GotoControllerAsync(gridLayoutLink, 'POST', tableObj, false, 'html', function (response) {

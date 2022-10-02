@@ -64,8 +64,43 @@ namespace Mac.Controllers
 
 		public async Task<IActionResult> DeleteMacAddress(int Id)
 		{
-			await _macService.DeleteAddress(new DeleteAddress { Id = Id });
-			return Json("");
+			var result = new JsonResultModel
+			{
+				ErrorMessage = string.Empty
+			};
+
+			try
+			{
+				await _macService.DeleteAddress(new DeleteAddress { Id = Id });
+				result.IsSuccess = true;
+			}
+			catch (Exception ex) { throw; }
+
+			
+			return Json(result);
+		}
+
+		public async Task<IActionResult> SaveMacAddress(MacAddressModel viewModel)
+		{
+			var result = new JsonResultModel
+			{
+				ErrorMessage = string.Empty
+			};
+
+			try
+			{
+				await _macService.UpdateAddress(new UpdateAddress
+				{
+					Id = viewModel.Id,
+					Address = viewModel.Address,
+					Description = viewModel.Description
+				});
+
+				result.IsSuccess = true;
+			}
+			catch (Exception ex) { throw; }
+
+			return Json(result);
 		}
 
 		#region Default

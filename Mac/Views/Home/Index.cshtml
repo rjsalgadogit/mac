@@ -12,18 +12,19 @@
 <script>
     $(document).ready(function () {
 
-        loadGrid('/Home/GetMacAddresses'
+        loadGrid('table-container'
+            , '/Home/GetMacAddresses'
             , '/Home/GetMacAddress'
             , '/Home/DeleteMacAddress'
-            , 'table-container'
+            , '/Home/SaveMacAddress'
             , 5,
-            { 
-                TableId: 'mac_table', 
+            {
+                TableId: 'mac_table',
                 Columns: [
                     { DataField: 'Id', DataType: 'int', IsKey: true },
                     { DataField: 'Address', DataType: 'string', IsKey: false },
                     { DataField: 'Description', DataType: 'string', IsKey: false }
-            ]
-        });
+                ]
+            });
     });
 </script>

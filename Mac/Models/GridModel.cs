@@ -8,11 +8,13 @@ namespace Mac.Models
 
         public string ReadAllRowDataUrl { get; set; }
 
-        public string ReadOneRowDataUrl { get; set; }
+        public string ReadRowDataUrl { get; set; }
 
         public string DeleteRowDataUrl { get; set; }
 
-        public List<ColumnModel> Columns { get; set; }
+        public string SaveRowDataUrl { get; set; }
+
+		public List<ColumnModel> Columns { get; set; }
 
         public int PageSize { get; set; }
     }
