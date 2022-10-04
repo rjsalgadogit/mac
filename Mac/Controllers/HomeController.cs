@@ -23,12 +23,8 @@ namespace Mac.Controllers
 			_macService = macService;
 		}
 
-		public async Task<IActionResult> Index()
+		public IActionResult Index()
 		{
-			//var test = _macService.GetAddresses();
-			//await _macService.UpdateAddress(new UpdateAddress { Address = "11089024", Description = "Description" });
-			//await _macService.DeleteAddress(new DeleteAddress { Id = 2 });
-
 			return View();
 		}
 
