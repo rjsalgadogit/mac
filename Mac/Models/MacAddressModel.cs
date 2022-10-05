@@ -8,7 +8,7 @@ namespace Mac.Models
 
 		public string Address { get; set; }
 
-		public string AddressGrid { get 
+		public string AddressRow { get 
 			{ 
 				var label = !string.IsNullOrEmpty(this.Address) ? Regex.Replace(this.Address, ".{2}", "$0:") : string.Empty;
 				return !string.IsNullOrEmpty(label) ? label.Remove(label.Length - 1) : string.Empty;

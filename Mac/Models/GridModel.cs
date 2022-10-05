@@ -23,11 +23,13 @@ namespace Mac.Models
     {
 		public string DataField { get; set; }
 
-        public string DataFieldGrid { get; set; }
+        public string DataRowCustom { get; set; }
 
         public string DataType { get; set; }
 
-		public string CustomName { get; set; }
+		public string ColumnNameCustom { get; set; }
+
+        public string ColumnName { get { return !string.IsNullOrEmpty(ColumnNameCustom) ? ColumnNameCustom : DataField; } }
 
         public bool IsKey { get; set; }
     }
