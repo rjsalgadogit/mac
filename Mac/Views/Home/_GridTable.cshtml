@@ -1,7 +1,7 @@
 ﻿@model GridModel
 
 <!-- search -->
-<div class="row mb-1">
+<div class="row mb-2">
     <div class="col-md-6">
         <div class="input-group">
             <input type="text" placeholder="Search by keyword" class="form-control" aria-label="Search" aria-describedby="basic-addon" autofocus id="txtSearch_@Model.TableId"/>
@@ -17,7 +17,7 @@
 </div>
 
 <!-- grid -->
-<table class="table table-striped table-bordered mb-1" style="width: 100%" id="@Model.TableId">
+<table class="table table-striped table-bordered mb-2" style="width: 100%" id="@Model.TableId">
     <thead>
         <tr>
             @if (Model.Columns != null || Model.Columns.Any())
