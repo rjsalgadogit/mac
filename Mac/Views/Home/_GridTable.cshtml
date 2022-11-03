@@ -273,10 +273,13 @@
 
     function onDeleteRow(keyId, primaryKey) {
         let parameter = '?' + primaryKey + '=' + keyId;
+        let isOk = confirm('Want to delete?');
 
-        GotoControllerAsync('@Model.DeleteRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
-            $('#@Model.TableId').DataTable().ajax.reload();
-        });
+        if (isOk) {
+            GotoControllerAsync('@Model.DeleteRowDataUrl' + parameter, 'POST', null, false, 'json', function (response) {
+                $('#@Model.TableId').DataTable().ajax.reload();
+            });
+        }
     }
 
     function onSaveRow(formId, callback) {
