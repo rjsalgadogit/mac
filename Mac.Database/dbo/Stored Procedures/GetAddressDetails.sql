@@ -3,7 +3,7 @@
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE GetAddressDetails
+CREATE PROCEDURE [dbo].[GetAddressDetails]
 	@Id int
 AS
 BEGIN

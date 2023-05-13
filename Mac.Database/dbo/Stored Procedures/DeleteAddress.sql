@@ -3,7 +3,7 @@
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE DeleteAddress
+CREATE PROCEDURE [dbo].[DeleteAddress]
 	@Id int
 AS
 BEGIN
